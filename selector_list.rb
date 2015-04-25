@@ -1,15 +1,15 @@
 class SelectorList
 
 
-  attr_accessor :lista
+  attr_accessor :selectores
 
   def initialize
-    @lista = []
+    @selectores = []
 
     def addSelector(aSelector)
       #agrega el selector a su lista.
 
-      lista<<aSelector
+      selectores<<aSelector
 
     end
 
@@ -18,16 +18,7 @@ class SelectorList
       #tienen que devolver la sublista de los que entienden
       #todos los selectores registrados en el SelectorList
 
-      result = []
-
-      for tipo in aList
-        for selector in lista
-
-          result<<tipo if tipo.respond_to? selector
-
-        end
-      end
-      puts result
+      aList.select{|objeto| self.selectSelectorsFor(objeto).size == selectores.size}
 
     end
 
@@ -35,7 +26,7 @@ class SelectorList
       #llega un objeto,
       #tienen que devolver la sublista de los selectores registrados
       #en el SelectorList, de los que entiende el objeto
-      lista.select{|selector| anObject.respond_to? selector}
+      selectores.select{|selector| anObject.respond_to? selector}
     end
 
     def valuesFor(anObject)
@@ -76,12 +67,14 @@ if __FILE__ == $0
   fido.cuanto_come =3
   pepa = Tortuga.new
   tutu = Auto.new
+
   slist2 = SelectorList.new
   slist2.addSelector(:size)
   slist2.addSelector(:cuantoCome)
   slist2.addSelector(:empty?)
-  slist.selectResponders([fido,pepa,tutu,"hola",4])
-  puts slist.selectSelectorsFor(fido) #no me muestra cuanto_come
+
+ puts slist.selectResponders([fido,pepa,tutu,"hola",4])
+  puts slist.selectSelectorsFor(fido)
   #slist.selectSelectorsFor(tutu) #bien
   #slist.selectSelectorsFor(4) #bien
   puts slist.valuesFor(fido)
